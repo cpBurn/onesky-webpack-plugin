@@ -44,7 +44,7 @@ function WebpackOneSky(options) {
 
 WebpackOneSky.prototype = {
     apply: function(compiler) {
-        compiler.plugin('compilation', function () {
+        compiler.plugin('run', function () {
             var file = path.join(__dirname, opts.outputFile);
 
             var request = (opts.format === multiLanguage) ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
