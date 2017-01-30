@@ -1,6 +1,6 @@
 {
   "name": "onesky-webpack-plugin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Download OneSky Translations",
   "homepage": "https://github.com/cpBurn/webpack-onesky",
   "license": "MIT",
