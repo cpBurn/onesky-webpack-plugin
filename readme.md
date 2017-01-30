@@ -1,6 +1,6 @@
-<h1>Simple webpack plugin to download OneSkyApp jsons.</h1>
+#Simple webpack plugin to download OneSkyApp jsons.
 
-<h2>How to use:</h2>
+##How to use:
 
 ```const OneSkyPlugin = require('../../../../../webpack-onesky');```
 
