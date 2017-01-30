@@ -1,0 +1,35 @@
+{
+  "name": "webpack-onesky",
+  "version": "0.0.1",
+  "description": "Download OneSky Translations",
+  "homepage": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:cpBurn/webpack-onesky.git"
+  },
+  "author": {
+    "name": "Daniel Capeletti",
+    "email": "dcapeletti@icloud.com",
+    "url": "https://bitbucket.org/cpBurn"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "webpack",
+    "onesky",
+    "oneskyapp",
+    "i18n",
+    "translations"
+  ],
+  "dependencies": {
+    "jsonfile": "^2.4.0",
+    "onesky-utils": "^1.0.0",
+    "request": "^2.72.0"
+  }
+}
