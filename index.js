@@ -1,12 +1,15 @@
+'use strict';
+
 var request = require('request');
 var onesky = require('onesky-utils');
 var jsonfile = require('jsonfile');
 
 var multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
+var opts = {};
 
 var processOptions = function (opts) {
     var pluginName = 'Webpack OneSky';
-    if (!opts.publicKey || !opts.secretKey)
+    if (!opts.apiKey || !opts.secret)
         throw new Error(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
 
     if (!opts.projectId)
@@ -24,37 +27,36 @@ var processOptions = function (opts) {
     }
 
     if (!opts.outputFile)
-        opts.outputFile = opts.sourceFile + '.i18n.json';
+        opts.outputFile = opts.fileName;
 
-    return {
-        'secret': opts.secretKey,
-        'apiKey': opts.publicKey,
-        'projectId': opts.projectId,
-        'fileName': opts.fileName,
-        'language': opts.language,
-        'format': opts.format
-    }
+    return opts;
 };
 
-function WebpackOneSky(opts) {
-    this.opts = processOptions(opts);
+function WebpackOneSky(options) {
+    opts = processOptions(options);
 }
 
-WebpackOneSky.prototype.apply = function(compiler) {
-    compiler.plugin('compilation', function (compilation, params) {
-        compilation.plugin('before-chunk-assets', function () {
-            var file = this.opts.outputFile;
+WebpackOneSky.prototype = {
+    apply: function(compiler) {
+        compiler.plugin('compilation', function (compilation, params) {
+            var file = './' + opts.outputFile;
 
-            var request =  this.opts.format === multiLanguage ? onesky.getMultilingualFile(options) : onesky.getFile(this.opts);
+            var request = opts.format === multiLanguage ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
             request.catch(function (error) {
                 throw new Error(error);
             });
 
-            return request.then(function(data) {
-                jsonfile.writeFile(file, data, function (error)  {
-                    throw new Error(error);
+            console.log('Downloading OneSky file...');
+            return request.then(function (data) {
+                jsonfile.writeFile(file, JSON.parse(data), function (error) {
+                    if (error)
+                        throw new Error(error);
+
+                    console.log('File downloaded! ' + opts.outputFile);
                 });
             });
         });
-    });
+    }
 };
+
+module.exports = WebpackOneSky;
