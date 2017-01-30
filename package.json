@@ -1,5 +1,5 @@
 {
-  "name": "webpack-onesky",
+  "name": "onesky-webpack-plugin",
   "version": "0.0.2",
   "description": "Download OneSky Translations",
   "homepage": "https://github.com/cpBurn/webpack-onesky",
@@ -15,6 +15,9 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "scripts": {
+    "build": ""
   },
   "main": "index.js",
   "files": [

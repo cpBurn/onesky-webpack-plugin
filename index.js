@@ -1,22 +1,25 @@
 'use strict';
 
-var request = require('request');
 var onesky = require('onesky-utils');
 var jsonfile = require('jsonfile');
+var path = require('path');
 
 var multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
 var opts = {};
 
 var processOptions = function (opts) {
     var pluginName = 'Webpack OneSky';
-    if (!opts.apiKey || !opts.secret)
+    if (!opts.apiKey || !opts.secret) {
         throw new Error(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
+    }
 
-    if (!opts.projectId)
+    if (!opts.projectId) {
         throw new Error(pluginName + ' - Something is wrong :/ Please specify the Project ID');
+    }
 
-    if (!opts.fileName)
+    if (!opts.fileName) {
         throw new gutil.PluginError(pluginName + ' - Something is wrong :/ We need to know the fileName to download :p');
+    }
 
     if (!opts.language) {
         opts.language = 'en_EN';
@@ -26,8 +29,11 @@ var processOptions = function (opts) {
         opts.format = multiLanguage;
     }
 
-    if (!opts.outputFile)
+    if (!opts.outputFile) {
         opts.outputFile = opts.fileName;
+    }
+
+    opts.onCompleted = opts.onCompleted || function(res) {return res};
 
     return opts;
 };
@@ -38,21 +44,19 @@ function WebpackOneSky(options) {
 
 WebpackOneSky.prototype = {
     apply: function(compiler) {
-        compiler.plugin('compilation', function (compilation, params) {
-            var file = './' + opts.outputFile;
+        compiler.plugin('compilation', function () {
+            var file = path.join(__dirname, opts.outputFile);
 
-            var request = opts.format === multiLanguage ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
+            var request = (opts.format === multiLanguage) ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
             request.catch(function (error) {
                 throw new Error(error);
             });
 
-            console.log('Downloading OneSky file...');
             return request.then(function (data) {
-                jsonfile.writeFile(file, JSON.parse(data), function (error) {
-                    if (error)
+                jsonfile.writeFile(file, opts.onCompleted(JSON.parse(data)), function (error) {
+                    if (error) {
                         throw new Error(error);
-
-                    console.log('File downloaded! ' + opts.outputFile);
+                    }
                 });
             });
         });
