@@ -6,10 +6,10 @@
 
 ```    
 new OneSkyPlugin({
-           language: 'en-US',
-           projectId: 123,
-           fileName: 'en.json',
-           apiKey: YOUR_API_KEY,
-           secret: YOUR_SECRET_KEY
-       }),
+   language: 'en-US',
+   projectId: 123,
+   fileName: 'en.json',
+   apiKey: YOUR_API_KEY,
+   secret: YOUR_SECRET_KEY
+}),
 ``` 
