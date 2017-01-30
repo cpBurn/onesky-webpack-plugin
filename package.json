@@ -1,5 +1,5 @@
 {
-  "name": "webpack-onesky",
+  "name": "onesky-webpack-plugin",
   "version": "0.0.3",
   "description": "Download OneSky Translations",
   "homepage": "https://github.com/cpBurn/webpack-onesky",
