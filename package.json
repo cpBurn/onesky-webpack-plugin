@@ -29,7 +29,6 @@
   ],
   "dependencies": {
     "jsonfile": "^2.4.0",
-    "onesky-utils": "^1.0.0",
-    "request": "^2.72.0"
+    "onesky-utils": "^1.0.0"
   }
 }
