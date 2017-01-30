@@ -16,9 +16,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "scripts": {
-    "build": ""
-  },
   "main": "index.js",
   "files": [
     "index.js"
