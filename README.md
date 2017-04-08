@@ -1,9 +1,9 @@
-##How it works
+## How it works
 
 It loads the onesky translation files and saves them locally.
 
 
-##Usage:
+## Usage:
 
 ```js
 const OneSkyPlugin = require('webpack-onesky-plugin');

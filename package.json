@@ -2,11 +2,11 @@
   "name": "onesky-webpack-plugin",
   "version": "0.0.4",
   "description": "Download OneSky Translations",
-  "homepage": "https://github.com/cpBurn/webpack-onesky",
+  "homepage": "https://github.com/cpBurn/onesky-webpack-plugin",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cpBurn/webpack-onesky.git"
+    "url": "git@github.com:cpBurn/onesky-webpack-plugin.git"
   },
   "author": {
     "name": "Daniel Capeletti",
