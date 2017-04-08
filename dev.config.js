@@ -1,9 +1,11 @@
+const path = require('path');
+
 module.exports = {
     entry: './src/index.js',
     target: 'node',
     output: {
         filename: 'bundle.js',
-        path: './lib',
+        path: path.resolve(__dirname, "dist"),
         library: 'onesky-webpack-plugin',
         libraryTarget: 'commonjs2',
     },
