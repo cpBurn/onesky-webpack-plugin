@@ -6,7 +6,7 @@ It loads the onesky translation files and saves them locally.
 ##Usage:
 
 ```js
-const OneSkyPlugin = require('webpack-onesky-plugin');
+const OneSkyPlugin = require('onesky-webpack-plugin');
 
 module.exports = {
   plugins: [
