@@ -21,7 +21,7 @@
     "index.js"
   ],
   "scripts": {
-    "dev": "webpack --config dev.config.js --watch",
+    "start": "webpack --config dev.config.js --watch",
     "build": "webpack --config prod.config.js"
   },
   "keywords": [
@@ -33,7 +33,8 @@
   ],
   "dependencies": {
     "jsonfile": "^2.4.0",
-    "onesky-utils": "^1.0.0"
+    "onesky-utils": "^1.0.0",
+    "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
