@@ -1,24 +1,28 @@
 'use strict';
 
-var onesky = require('onesky-utils');
-var jsonfile = require('jsonfile');
-var path = require('path');
+import onesky from 'onesky-utils';
+import jsonfile from 'jsonfile';
+import path from 'path';
 
-var multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
-var opts = {};
+const multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
+let opts = {};
 
-var processOptions = function (opts) {
-    var pluginName = 'Webpack OneSky';
+const logError = (msg) => console.log(chalk.red(msg));
+const onCompleted = (res) => res;
+const onError = (error) => logError(error.message);
+
+const processOptions = (opts) => {
+    const pluginName = 'Webpack OneSky';
     if (!opts.apiKey || !opts.secret) {
-        throw new Error(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
+        logError(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
     }
 
     if (!opts.projectId) {
-        throw new Error(pluginName + ' - Something is wrong :/ Please specify the Project ID');
+        logError(pluginName + ' - Something is wrong :/ Please specify the Project ID');
     }
 
     if (!opts.fileName) {
-        throw new gutil.PluginError(pluginName + ' - Something is wrong :/ We need to know the fileName to download :p');
+        logError(pluginName + ' - Something is wrong :/ We need to know the fileName to download :p');
     }
 
     if (!opts.language) {
@@ -33,31 +37,25 @@ var processOptions = function (opts) {
         opts.outputFile = opts.fileName;
     }
 
-    opts.onCompleted = opts.onCompleted || function(res) {return res};
+    opts.onCompleted = opts.onCompleted || onCompleted;
+    opts.onError = opts.onError || onError;
 
     return opts;
 };
 
-function WebpackOneSky(options) {
+const WebpackOneSky = (options) => {
     opts = processOptions(options);
-}
+};
 
 WebpackOneSky.prototype = {
-    apply: function(compiler) {
-        compiler.plugin('run', function () {
-            var file = path.join(compiler.options.context, opts.outputFile);
+    apply: (compiler) => {
+        compiler.plugin('run', () => {
+            const file = path.join(compiler.options.context, opts.outputFile);
+            const request = (opts.format === multiLanguage) ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
+            request.catch(opts.onError(error));
 
-            var request = (opts.format === multiLanguage) ? onesky.getMultilingualFile(opts) : onesky.getFile(opts);
-            request.catch(function (error) {
-                throw new Error(error);
-            });
-
-            return request.then(function (data) {
-                jsonfile.writeFile(file, opts.onCompleted(JSON.parse(data)), function (error) {
-                    if (error) {
-                        throw new Error(error);
-                    }
-                });
+            return request.then((data) => {
+                jsonfile.writeFile(file, opts.onCompleted(JSON.parse(data)), opts.onError(error));
             });
         });
     }

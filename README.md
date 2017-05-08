@@ -18,9 +18,19 @@ module.exports = {
        secret: YOUR_SECRET_KEY,
        onCompleted: function(loadedFile) {
            return processFile(loadedFile);
+       },
+       onError: function(error) {
+           return handleError(error);
        }
     })
     // ...
   ]
 }
 ```
+
+## Callbacks
+
+##### onCompleted
+Default: returns the downloaded json file.
+##### onError: logs the error
+Default: Logs the error message.
