@@ -2,6 +2,7 @@
 
 import onesky from 'onesky-utils';
 import jsonfile from 'jsonfile';
+import chalk from 'chalk';
 import path from 'path';
 
 const multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
@@ -13,17 +14,6 @@ const onError = (error) => logError(error.message);
 
 const processOptions = (opts) => {
     const pluginName = 'Webpack OneSky';
-    if (!opts.apiKey || !opts.secret) {
-        logError(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
-    }
-
-    if (!opts.projectId) {
-        logError(pluginName + ' - Something is wrong :/ Please specify the Project ID');
-    }
-
-    if (!opts.fileName) {
-        logError(pluginName + ' - Something is wrong :/ We need to know the fileName to download :p');
-    }
 
     if (!opts.language) {
         opts.language = 'en_EN';
@@ -39,6 +29,24 @@ const processOptions = (opts) => {
 
     opts.onCompleted = opts.onCompleted || onCompleted;
     opts.onError = opts.onError || onError;
+
+    if (!opts.apiKey || !opts.secret) {
+        opts.onError({
+            message: pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)'
+        });
+    }
+
+    if (!opts.projectId) {
+        opts.onError({
+            message:pluginName + ' - Something is wrong :/ Please specify the Project ID'
+        });
+    }
+
+    if (!opts.fileName) {
+        opts.onError({
+            message: pluginName + ' - Something is wrong :/ We need to know the fileName to download :p'
+        });
+    }
 
     return opts;
 };

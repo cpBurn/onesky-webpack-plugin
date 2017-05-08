@@ -64,43 +64,53 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-module.exports = require("jsonfile");
+module.exports = require("chalk");
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("onesky-utils");
+module.exports = require("jsonfile");
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("path");
+module.exports = require("onesky-utils");
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _oneskyUtils = __webpack_require__(1);
+var _oneskyUtils = __webpack_require__(2);
 
 var _oneskyUtils2 = _interopRequireDefault(_oneskyUtils);
 
-var _jsonfile = __webpack_require__(0);
+var _jsonfile = __webpack_require__(1);
 
 var _jsonfile2 = _interopRequireDefault(_jsonfile);
 
-var _path = __webpack_require__(2);
+var _chalk = __webpack_require__(0);
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
+var _path = __webpack_require__(3);
 
 var _path2 = _interopRequireDefault(_path);
 
@@ -110,28 +120,17 @@ var multiLanguage = 'I18NEXT_MULTILINGUAL_JSON';
 var opts = {};
 
 var logError = function logError(msg) {
-    return console.log(chalk.red(msg));
+    return console.log(_chalk2.default.red(msg));
 };
 var onCompleted = function onCompleted(res) {
     return res;
 };
 var onError = function onError(error) {
-    return logError(error);
+    return logError(error.message);
 };
 
 var processOptions = function processOptions(opts) {
     var pluginName = 'Webpack OneSky';
-    if (!opts.apiKey || !opts.secret) {
-        logError(pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)');
-    }
-
-    if (!opts.projectId) {
-        logError(pluginName + ' - Something is wrong :/ Please specify the Project ID');
-    }
-
-    if (!opts.fileName) {
-        logError(pluginName + ' - Something is wrong :/ We need to know the fileName to download :p');
-    }
 
     if (!opts.language) {
         opts.language = 'en_EN';
@@ -148,12 +147,30 @@ var processOptions = function processOptions(opts) {
     opts.onCompleted = opts.onCompleted || onCompleted;
     opts.onError = opts.onError || onError;
 
+    if (!opts.apiKey || !opts.secret) {
+        opts.onError({
+            message: pluginName + ' - Something is wrong :/ Public and Secret Key must be specified :)'
+        });
+    }
+
+    if (!opts.projectId) {
+        opts.onError({
+            message: pluginName + ' - Something is wrong :/ Please specify the Project ID'
+        });
+    }
+
+    if (!opts.fileName) {
+        opts.onError({
+            message: pluginName + ' - Something is wrong :/ We need to know the fileName to download :p'
+        });
+    }
+
     return opts;
 };
 
-function WebpackOneSky(options) {
+var WebpackOneSky = function WebpackOneSky(options) {
     opts = processOptions(options);
-}
+};
 
 WebpackOneSky.prototype = {
     apply: function apply(compiler) {
