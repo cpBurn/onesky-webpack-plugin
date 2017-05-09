@@ -1,12 +1,12 @@
 {
   "name": "onesky-webpack-plugin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Download OneSky Translations",
-  "homepage": "https://github.com/cpBurn/webpack-onesky",
+  "homepage": "https://github.com/cpBurn/onesky-webpack-plugin",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cpBurn/webpack-onesky.git"
+    "url": "git@github.com:cpBurn/onesky-webpack-plugin.git"
   },
   "author": {
     "name": "Daniel Capeletti",
@@ -20,6 +20,10 @@
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "start": "webpack --config dev.config.js --watch",
+    "build": "webpack --config prod.config.js"
+  },
   "keywords": [
     "webpack",
     "onesky",
@@ -28,7 +32,15 @@
     "translations"
   ],
   "dependencies": {
+    "chalk": "^1.1.3",
     "jsonfile": "^2.4.0",
-    "onesky-utils": "^1.0.0"
+    "onesky-utils": "^1.0.0",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^2.3.3"
   }
 }

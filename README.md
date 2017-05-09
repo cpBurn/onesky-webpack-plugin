@@ -1,9 +1,9 @@
-##How it works
+## How it works
 
 It loads the onesky translation files and saves them locally.
 
 
-##Usage:
+## Usage:
 
 ```js
 const OneSkyPlugin = require('onesky-webpack-plugin');
@@ -18,9 +18,19 @@ module.exports = {
        secret: YOUR_SECRET_KEY,
        onCompleted: function(loadedFile) {
            return processFile(loadedFile);
+       },
+       onError: function(error) {
+           return handleError(error);
        }
     })
     // ...
   ]
 }
 ```
+
+## Callbacks
+
+##### onCompleted
+Default: returns the downloaded json file.
+##### onError: logs the error
+Default: Logs the error message.
